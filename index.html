@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+
+    <title>reveal.js</title>
+
+    <link rel="stylesheet" href="css/reset.css" />
+    <link rel="stylesheet" href="css/reveal.css" />
+    <link rel="stylesheet" href="css/theme/white.css" />
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="lib/css/atom-one-light.css" />
+
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match(/print-pdf/gi)
+        ? 'css/print/pdf.css'
+        : 'css/print/paper.css';
+      document.getElementsByTagName('head')[0].appendChild(link);
+    </script>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section data-markdown>
+          <textarea data-template>
+						## React Hooks in action
+				
+						Martin Lechner
+
+						27.06.2019
+					</textarea
+          >
+        </section>
+        <section>
+          <section data-markdown>
+            <textarea data-template>
+							## About me
+					
+							Martin Lechner
+
+							Fullstack Engineer at Autoscout24
+
+							❤️ 👨‍👩‍👧‍👦, Functional Programming, Photography & Boardgames
+
+							[www.lechner.work](www.lechner.work)
+
+							[@m4nl5r](https://twitter.com/m4nl5r)
+						</textarea
+            >
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+							## We're hiring @ Autoscout24
+						</textarea
+            >
+          </section>
+        </section>
+        <section>
+          <section><h2>Why Hooks?</h2></section>
+          <section><h2>Who likes function components?</h2></section>
+          <section>
+            <h2>Lifecycle vs Function Components?</h2>
+            <ul>
+              <li><del>componentDidMount</del></li>
+              <li><del>componentDidUpdate</del></li>
+              <li><del>...</del></li>
+            </ul>
+          </section>
+          <section>
+            <h2>State vs Function Components?</h2>
+            <p>Nope 😢</p>
+            =
+          </section>
+          <section>
+            <h2>Who likes complex component hierarchies?</h2>
+          </section>
+          <section>
+            <h2>Render Props</h2>
+            <pre><code class="hljs" data-trim>              
+                        function Example() {
+                          return (
+                            &lt;Translation&gt;
+                              {
+                                (t, { i18n }) => &lt;p&gt;{t('my-translation-key')}&lt;/p&gt;
+                              }
+                            &lt;/Translation&gt;
+                          );
+                        }
+                      </code></pre>
+          </section>
+          <section>
+            <h2>Higher Order Components</h2>
+            <pre><code class="hljs" data-trim>
+                        function MyComponent({ t, i18n }) {
+                          return &lt;p&gt;{t('my-translation-key')}&lt;/p&gt;
+                        }
+                        export default withTranslation()(MyComponent);
+                      </code></pre>
+          </section>
+          <section>
+            <h2>Hooks</h2>
+            <pre><code class="hljs" data-trim>
+                        function MyComponent() {
+                          const { t, i18n } = useTranslation();
+                          return &lt;p&gt;{t('my-translation-key')}&lt;/p&gt;
+                        }
+                      </code></pre>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h2>Your first hook - useState</h2>
+            <pre><code>
+      import React, { useState } from 'react';
+
+      function Counter() {
+        const [count, setCount] = useState(0);
+        return (
+          &lt;div&gt;
+            &lt;p&gt;You clicked {count} times.&lt;/p&gt;
+            &lt;button onClick={() =&gt; setCount(count + 1)}&gt;
+              Inc
+            &lt;/button&gt;
+          &lt;/div&gt;  
+        )
+      }
+            </code></pre>
+          </section>
+          <section>
+            <h2>Your first hook - useState</h2>
+            <pre><code class="hljs" data-trim data-line-numbers="4">
+      import React, { useState } from 'react';
+
+      function Counter() {
+        const [count, setCount] = useState(0);
+        return (
+          &lt;div&gt;
+            &lt;p&gt;You clicked {count} times.&lt;/p&gt;
+            &lt;button onClick={() =&gt; setCount(count + 1)}&gt;
+              Inc
+            &lt;/button&gt;
+          &lt;/div&gt;  
+        )
+      }
+            </code></pre>
+          </section>
+          <section>
+            <h2>Your first hook - useState</h2>
+            <pre><code class="hljs" data-trim data-line-numbers="7,8">
+      import React, { useState } from 'react';
+
+      function Counter() {
+        const [count, setCount] = useState(0);
+        return (
+          &lt;div&gt;
+            &lt;p&gt;You clicked {count} times.&lt;/p&gt;
+            &lt;button onClick={() =&gt; setCount(count + 1)}&gt;
+              Inc
+            &lt;/button&gt;
+          &lt;/div&gt;  
+        )
+      }
+            </code></pre>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h2>Two rules of the hook club</h2>
+            <ul>
+              <li>Only use toplevel</li>
+              <li>Only use in React functions</li>
+            </ul>
+          </section>
+          <section>
+            <p>React relies on ordering of useX hook calls!</p>
+            <code>eslint-plugin-react-hooks</code>
+          </section>
+        </section>
+        <section>
+          <section><h2>UseEffect</h2></section>
+          <section><p>More than just lifecycle</p></section>
+        </section>
+        <section>
+          <section>
+            <h2>Custom hooks by example</h2>
+            <ul>
+              <li>Data fetching from a json based api</li>
+              <li>Loading handling</li>
+              <li>Error handling</li>
+            </ul>
+          </section>
+          <section>
+            <h2>Testing custom hooks</h2>
+          </section>
+        </section>
+        <section>
+          <h2>Other hooks (react api)</h2>
+        </section>
+        <section>
+          <h2>Hooks in the wild (libraries)</h2>
+          <ul>
+            <li>react-i18next</li>
+            <li>react-redux</li>
+            <li>react-apollo-hooks</li>
+            <li>
+              <a href="https://nikgraf.github.io/react-hooks/">Hook Search</a>
+            </li>
+          </ul>
+        </section>
+      </div>
+    </div>
+
+    <script src="js/reveal.js"></script>
+
+    <script>
+      // More info about config & dependencies:
+      // - https://github.com/hakimel/reveal.js#configuration
+      // - https://github.com/hakimel/reveal.js#dependencies
+      Reveal.initialize({
+        dependencies: [
+          { src: 'plugin/markdown/marked.js' },
+          { src: 'plugin/markdown/markdown.js' },
+          { src: 'plugin/notes/notes.js', async: true },
+          { src: 'plugin/highlight/highlight.js', async: true },
+        ],
+      });
+    </script>
+  </body>
+</html>
