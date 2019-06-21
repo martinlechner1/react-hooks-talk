@@ -49,7 +49,7 @@
 
 							Fullstack Engineer at Autoscout24
 
-							❤️ 👨‍👩‍👧‍👦, Functional Programming, Photography & Boardgames
+							❤️ 👨‍👩‍👧‍👦, Functional Programming, Photography, Bouldering & Boardgames
 
 							[www.lechner.work](www.lechner.work)
 
@@ -57,31 +57,61 @@
 						</textarea
             >
           </section>
-          <section data-markdown>
-            <textarea data-template>
-							## We're hiring @ Autoscout24
-						</textarea
-            >
+          <section>
+            <h2>
+              We're hiring at Autoscout24
+            </h2>
           </section>
         </section>
         <section>
-          <section><h2>Why Hooks?</h2></section>
-          <section><h2>Who likes function components?</h2></section>
+          <section>
+            <h2>Why Hooks?</h2>
+          </section>
+          <section><h2>Who has heard of function components?</h2></section>
+          <section>
+            <h2>Who prefers function components over class components?</h2>
+            <aside class="notes">
+              FCs are easier to understand <br />
+              FCs are easier to optimize <br />
+              Classes are a complex thing in js: this, event handler binding,
+              ... <br />
+              Lack of certain react apis
+            </aside>
+          </section>
+          <section><h2>Who thinks class components are necessary?   </h2></section>
           <section>
             <h2>Lifecycle vs Function Components?</h2>
             <ul>
               <li><del>componentDidMount</del></li>
               <li><del>componentDidUpdate</del></li>
-              <li><del>...</del></li>
+              <li>...</li>
             </ul>
+            <aside class="notes">
+              In addition to not being available to fcs: Lifecyle can become
+              messy. Initialize - reset in different places. Source for bugs...
+              Hooks allow for extracting this out of components as we see later
+            </aside>
           </section>
           <section>
             <h2>State vs Function Components?</h2>
             <p>Nope 😢</p>
-            =
+            <aside class="notes">
+              Two sided edge: <br />
+              Keeps us from making fcs too complex <br />
+              But also prevents fcs from becoming building blocks in a bigger
+              context
+            </aside>
           </section>
           <section>
             <h2>Who likes complex component hierarchies?</h2>
+            <aside class="notes">
+              The following slides show how to do i18n. All those options are
+              available in react-i18next <br />
+              Concrete example for theconcept of Reusing of stateful logic
+              <br />
+              As we will see: Everything, but hooks is adding weight to the ch
+              <br />
+            </aside>
           </section>
           <section>
             <h2>Render Props</h2>
@@ -114,26 +144,42 @@
                           return &lt;p&gt;{t('my-translation-key')}&lt;/p&gt;
                         }
                       </code></pre>
+            <aside class="notes">
+              Only solution without changing component hierarchy! <br />
+              Example of a custom hook, which is the goal for this talk
+            </aside>
           </section>
         </section>
         <section>
           <section>
+            <h2>Your first hook</h2>
+            <aside class="notes">
+              <ul>
+                <li>
+                  Naming: Hook into react internals providing better apis
+                </li>
+                <li>v16.8.0 + opt-in</li>
+                <li>classes stay</li>
+              </ul>
+            </aside>
+          </section>
+          <section>
             <h2>Your first hook - useState</h2>
-            <pre><code>
-      import React, { useState } from 'react';
+            <pre><code class="hljs stretch" data-trim>
+    import React, { useState } from 'react';
 
-      function Counter() {
-        const [count, setCount] = useState(0);
-        return (
-          &lt;div&gt;
-            &lt;p&gt;You clicked {count} times.&lt;/p&gt;
-            &lt;button onClick={() =&gt; setCount(count + 1)}&gt;
-              Inc
-            &lt;/button&gt;
-          &lt;/div&gt;  
-        )
-      }
-            </code></pre>
+    function Counter() {
+      const [count, setCount] = useState(0);
+      return (
+        &lt;div&gt;
+          &lt;p&gt;You clicked {count} times.&lt;/p&gt;
+          &lt;button onClick={() =&gt; setCount(count + 1)}&gt;
+            Inc
+          &lt;/button&gt;
+        &lt;/div&gt;  
+      )
+    }
+    </code></pre>
           </section>
           <section>
             <h2>Your first hook - useState</h2>
@@ -154,7 +200,7 @@
             </code></pre>
           </section>
           <section>
-            <h2>Your first hook - useState</h2>
+            <h2>Your first hook - use state</h2>
             <pre><code class="hljs" data-trim data-line-numbers="7,8">
       import React, { useState } from 'react';
 
@@ -164,12 +210,33 @@
           &lt;div&gt;
             &lt;p&gt;You clicked {count} times.&lt;/p&gt;
             &lt;button onClick={() =&gt; setCount(count + 1)}&gt;
-              Inc
+              Inc 
             &lt;/button&gt;
           &lt;/div&gt;  
         )
       }
             </code></pre>
+            <aside class="notes">
+              Convention: hooks start with use
+            </aside>
+          </section>
+          <section>
+            <h2>callbacks in set</h2>
+            <pre><code class="hljs" data-trim data-line-numbers="8">
+              import React, { useState } from 'react';
+          
+              function Counter() {
+                const [count, setCount] = useState(0);
+                return (
+                  &lt;div&gt;
+                    &lt;p&gt;You clicked {count} times.&lt;/p&gt;
+                    &lt;button onClick={() =&gt; setCount(c => c + 1)}&gt;
+                      Inc
+                    &lt;/button&gt;
+                  &lt;/div&gt;  
+                )
+              }
+                    </code></pre>
           </section>
         </section>
         <section>
@@ -179,6 +246,9 @@
               <li>Only use toplevel</li>
               <li>Only use in React functions</li>
             </ul>
+            <aside class="notes">
+              if, for, nesting... no classes, no standalone working possible
+            </aside>
           </section>
           <section>
             <p>React relies on ordering of useX hook calls!</p>
@@ -186,10 +256,127 @@
           </section>
         </section>
         <section>
-          <section><h2>UseEffect</h2></section>
-          <section><p>More than just lifecycle</p></section>
+          <h2>Mental model for rendering</h2>
+          <p>
+            Each render has its own Props and State callbacks capturing the
+            values, similar to closure. The state values stay constant within a
+            render Add images / snippets here.
+            // @TODO code
+          </p>
         </section>
         <section>
+          <section>
+            <h2>Use Effect</h2>
+            <ul>
+              <li>Side effects outside of React</li>
+              <li>Executed after every render (unless specified otherwise)</li>
+              <li>Can be used to achieve similar behavior to componentDidX</li>
+              <li>Props, State bound to the wrapped function</li>
+            </ul>
+          </section>
+          <section>
+            <pre><code class="hljs stretch" data-trim>
+function Counter() {
+  const [count, setCount] = useState(0);
+
+  useEffect(() =&gt; {
+    document.title = `You clicked ${count} times`;
+  });
+
+  return (
+    &lt;div&gt;
+      &lt;p&gt;You clicked {count} times&lt;/p&gt;
+      &lt;button onClick={()=&gt; setCount(count + 1)}&gt;
+        Click me
+      &lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+            </code></pre>
+            <aside class="notes">
+              React: give me ui for state 0 <br />
+              C: your render result & run this pls <br />
+              React: writing you stuff to DOM <br />
+              Browser: painted <br />
+              React: Running the effect<br />
+              Same for second iteration, just note that the effect of render2 is
+              run
+            </aside>
+          </section>
+          <section>
+            <h2>Class vs hook</h2>
+            <ul>
+              <li>
+                <a href="https://codesandbox.io/s/lyx20m1ol" target="_blank"
+                  >Hook</a
+                >
+              </li>
+              <li><a href="https://codesandbox.io/s/kkymzwjqz3" target="_blank">Class</a></li>
+            </ul>
+            <aside class="notes">
+              this.state.count is always the latest value </br>
+               hooks variant binds the props/state to the effect
+            </aside>
+          </section>
+          <section>
+            <h2>Cleanup</h2>
+            <pre><code class="hljs stretch" data-trim>
+              useEffect(() => {
+                websocket.connect(props.customerId);
+              });
+            </code></pre>
+            <aside class="notes">
+              What's the problem?
+              It's leaking connections, 
+              since on each render a new one is created.
+            </aside>
+          </section>
+          <section>
+            <h2>Cleanup</h2>
+            <pre><code class="hljs stretch" data-trim>
+                        useEffect(() => {
+                          websocket.connect(props.customerId);
+                          return () => websocket.disconnect(props.customerId);
+                        });
+                      </code></pre>
+            <aside class="notes">
+              If the customerId now changes the following happens:<br />
+              Render<br />
+              Clear old effect with customerId x<br />
+              Run new effect with customerId y<br />
+              Now there is still a problem. What if the component has other Props/State? <br/>
+              Effect executed every render!
+            </aside>
+          </section>
+          <section>
+            <h2>Not executing every render</h2>
+            <pre><code class="hljs stretch" data-trim data-line-numbers="4"> 
+                                    useEffect(() => {
+                                      websocket.connect(props.customerId);
+                                      return () => websocket.disconnect(props.customerId);
+                                    }, [props.customerId]);
+                                  </code></pre>
+                                  <aside class="notes">Hole is plugged, well done!</aside>
+          </section>
+          <section>
+            <h2>Only execute once</h2>
+            <pre><code class="hljs stretch" data-trim data-line-numbers="3">
+                                                useEffect(() => {
+                                                 ...
+                                                }, []);
+                                              </code></pre>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h2>Custom hooks</h2>
+            <aside class="notes">
+              React allows you to define custom hooks, which are functions,
+              which use other available hooks, but can only be used in react
+              fcs. This is the major composition mechanism built into the hooks
+              concept.
+            </aside>
+          </section>
           <section>
             <h2>Custom hooks by example</h2>
             <ul>
@@ -199,11 +386,181 @@
             </ul>
           </section>
           <section>
+            <pre><code class="hljs stretch" data-trim>
+            function useApi(url) {
+              const [error, setError] = useState(null);
+              const [loading, setLoading] = useState(false);
+              const [data, setData] = useState(null)
+          
+              useEffect(() => ???)
+              
+              return { error, loading, data };
+            }</code></pre>
+          </section>
+          <section>
+            <pre><code class="hljs stretch" data-trim>
+  function useApi(url) {
+    const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [data, setData] = useState(null)
+
+    useEffect(() => {
+      const fetchData = async () => {
+        setLoading(true);
+        setError(null);
+        try {
+          const response = await axios.get(url);
+          setData(response.data);
+        } catch (e) {
+          setError(e);
+        }
+        setLoading(false);
+      };
+      fetchData();
+      }, [url]);
+    return { error, loading, data };
+  }</code></pre>
+          </section>
+          <section>
             <h2>Testing custom hooks</h2>
+            <aside class="notes">
+              Problem: hooks cannot be executed standalone
+              solution: wrap into dummy component
+              react-testing-library-hooks
+              act warning, fixed in next react version
+            </aside>
+          </section>
+          <section>
+            <pre><code class="hljs stretch" data-trim>
+  import axios from 'axios';
+  import { renderHook } from '@testing-library/react-hooks';
+
+  import { useApi } from './useApi';
+
+  jest.mock('axios');
+
+  it('should fetch data', async () => {
+    axios.get.mockResolvedValue({ data: '1' });
+
+    const { result, waitForNextUpdate } = 
+      renderHook(() => useApi('test'));
+
+    expect(result.current.loading).toEqual(true);
+
+    await waitForNextUpdate();
+
+    expect(result.current.loading).toEqual(false);
+    expect(result.current.data).toEqual('1');
+  });</code></pre>
           </section>
         </section>
         <section>
-          <h2>Other hooks (react api)</h2>
+          <section><h2>Other hooks (react api)</h2></section>
+          <section>
+            <h2>Use Context</h2>
+            <pre><code class="hljs" data-trim>const value = useContext(MyContext);</code></pre>
+            <aside class="notes">
+              Takes context object and returns current value of it. <br/>
+              When provider of MyContext updates, rerender with latest value is triggered
+            </aside>
+          </section>
+          <section><h2>Use Ref</h2>
+            <pre><code data-trim class="hljs stretch">
+              function TextInputWithFocusButton() {
+                const inputEl = useRef(null);
+                const onButtonClick = () =&gt; {
+                  inputEl.current.focus();
+                };
+                return (
+                  &lt;&gt;
+                    &lt;input ref={inputEl} type="text" /&gt;
+                    &lt;button onClick={onButtonClick}&gt;Focus input&lt;/button&gt;
+                  &lt;/&gt;
+                );
+              }
+            </code></pre>
+            <aside class="notes">
+              Use case: share values between renders <br/>
+              DOM access <br />
+              Use Ref guaranteed to be static</aside>
+          </section>
+          <section>
+            <h2>Use Callback</h2>
+            <pre><code class="hljs stretch" data-trim>
+              const memoizedCallback = useCallback(
+                () => {
+                  doSomething(a, b);
+                },
+                [a, b],
+              );
+            </code></pre>
+            <aside class="notes">Returns memoized callback, only changes when dependencies change</aside>
+          </section>
+          <section>
+            <h2>Callback ref</h2>
+            <pre><code data-trim class="hljs stretch"> 
+              function MeasureExample() {
+                const [height, setHeight] = useState(0);
+              
+                const measuredRef = useCallback(node =&gt; {
+                  if (node !== null) {
+                    setHeight(node.getBoundingClientRect().height);
+                  } 
+                }, []);
+              
+                return (
+                &lt;&gt;
+                  &lt;h1 ref={measuredRef}&gt;Hello, world&lt;/h1&gt;
+                  &lt;h2&gt;The above header is {Math.round(height)}px tall&lt;/h2&gt;
+                &lt;/&gt;
+                );
+              }
+            </code></pre>
+          </section>
+          <section>
+            <h2>Use Reducer</h2>
+            <pre><code class="hljs stretch" data-trim>
+              const [state, dispatch] = 
+                useReducer(reducer, initialArg, init);</code></pre>
+            <aside class="notes">Dispatch: guaranteed to be static, not needed on dependency list of effect</aside>
+          </section>
+          <section>
+            <pre><code class="hljs stretch" data-trim>
+              const initialState = {count: 0};         
+              function reducer(state, action) {
+                switch (action.type) {
+                  case 'increment':
+                    return {count: state.count + 1};
+                  case 'decrement':
+                    return {count: state.count - 1};
+                  default:
+                    throw new Error();
+                }
+              }
+              
+              function Counter() {
+                const [state, dispatch] = useReducer(reducer, initialState);
+                return (
+                  &lt;&gt;
+                    Count: {state.count}
+                    &lt;button onClick={() =&gt; dispatch({type: 'increment'})}&gt;
+                      +&lt;/button&gt;
+                    &lt;button onClick={() =&gt; dispatch({type: 'decrement'})}&gt;
+                      -&lt;/button&gt;
+                 &lt;/&gt;);
+              }
+            </code></pre>
+          </section>
+          <section>
+            <pre><code data-trim class="stretch hljs">
+              const memoizedValue = 
+                useMemo(() => computeExpensiveValue(a, b), [a, b]);
+            </code></pre>
+            <aside class="notes">
+              The function runs on first render
+              value is only recomputed when deps change
+            </aside>
+          </section>
         </section>
         <section>
           <h2>Hooks in the wild (libraries)</h2>
@@ -214,6 +571,27 @@
             <li>
               <a href="https://nikgraf.github.io/react-hooks/">Hook Search</a>
             </li>
+          </ul>
+        </section>
+        <section>
+          <h2>Thanks!</h2>
+          <aside class="notes">
+            <ul>
+              <li>Adam, Thomas for meetup orga</li>
+              <li>Helpers from Scout!</li>
+              <li>Scout24 for hosting</li>
+              <li>Everyone here to make it a cool event</li>
+            </ul>
+          </aside>
+        </section>
+        <section>
+          <h2>Sources</h2>
+          <ul>
+            <li>https://reactjs.org/docs/hooks-intro.html</li>
+            <li>https://overreacted.io/a-complete-guide-to-useeffect/</li>
+            <li>https://www.robinwieruch.de/react-hooks-fetch-data/</li>
+            <li>https://react-hooks-testing-library.netlify.com/</li>
+            <li>https://react.i18next.com/</li>
           </ul>
         </section>
       </div>
