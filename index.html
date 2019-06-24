@@ -46,7 +46,7 @@
             Many open source contributors have started to tinker around and created a big buzz 
             as soon as the alpha was released last year. 
             Following the full release in March this year, there is now more 
-            and more adoption in the wild with react-redux being the latest big 
+            and more adoption in the wild. react-redux is the latest big 
             library to add a hook based api. In this talk I will guide you from the Why
             up to building your own hooks.
           </aside>
@@ -80,12 +80,10 @@
               FCs are easier to understand <br />
               Classes are a complex thing in js: this, event handler binding,
               ... <br />
-              FCs are easier to optimize
+              FCs are easier to optimize <br />
+              Pre hooks fcs were missing some features, so they definately were needed.
             </aside>
           </section>
-          <section><h2>Who thinks class components are necessary?</h2><aside class="notes">
-            Pre hooks fcs were missing some features, so they definately were needed.
-          </aside></section>
           <section>
             <h2>Lifecycle vs Function Components?</h2>
             <ul>
@@ -235,7 +233,7 @@
             <ul>
               <li>Side effects outside of React</li>
               <li>Executed after every render (unless specified otherwise)</li>
-              <li>Can be used to achieve similar behavior to componentDidX</li>
+              <li>Non-blocking</li>
               <li>Props, State bound to the wrapped function</li>
             </ul>
           </section>
@@ -265,14 +263,14 @@ function Counter() {
               <li>Counter is bound to 0</li>
               <li>Component: Creates render result & dispatch effect</li>
               <li>React renders to DOM, Browser paints</li>
-              <li>React running the effect.</li>
+              <li>React running the effect</li>
             </ul>
             <p><i>Click button</i></p>
             <ul>
               <li>Counter is bound to 1</li>
               <li>Component: Creates render result & dispatch effect</li>
               <li>React renders to DOM, Browser paints</li>
-              <li>React running the effect.</li>
+              <li>React cleaning up old effects, running the new effect</li>
             </ul>
           </section>
           <section>
@@ -287,7 +285,8 @@ function Counter() {
             </ul>
             <aside class="notes">
               this.state.count is always the latest value </br>
-               hooks variant binds the props/state to the effect
+               hooks variant binds the props/state to the effect <br/>
+               It's possible to get a matching behavior for the hook flavor by using useRef
             </aside>
           </section>
           <section>
@@ -337,6 +336,28 @@ function Counter() {
                                                  ...
                                                 }, []);
                                               </code></pre>
+                                              <aside class="notes">Be careful, source of bugs. 
+                                                the empty array are the dependencies. If there are actually some,
+                                                unexpected things might happen.
+                                              </aside>
+          </section>
+          <section><h2>Who feels useEffect can be used to achieve the exact same behavior as componentDidX?</h2></section>
+          <section>
+            <h2>useEffect vs componentDidX</h2>
+            <ul>
+              <li>useEffect is non-blocking</li>
+              <li>componentDidX is blocking</li>
+              <li>Closest to componentDidMount, componentDidUpdate is useLayoutEffect</li>
+            </ul>
+            <aside class="notes">
+              Unlike componentDidMount or componentDidUpdate, 
+              effects scheduled with useEffect don’t block the browser from updating
+              the screen.
+              useLayoutEffect synchronously fires after DOM mutations. 
+              Updates scheduled inside useLayoutEffect will be flushed synchronously, 
+              before the browser has a chance to paint.
+            Prefer the standard useEffect when possible to avoid blocking visual updates.
+            </aside>
           </section>
         </section>
         <section>
