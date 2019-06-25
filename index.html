@@ -16,7 +16,7 @@
     <!-- Theme used for syntax highlighting of code -->
     <!-- <link rel="stylesheet" href="lib/css/monokai.css" /> -->
     <link rel="stylesheet" href="plugin/prism/prism.css" />
-    <script src="plugin/prism/prism.js" ></script>
+    <script src="plugin/prism/prism.js"></script>
 
     <!-- Printing and PDF exports -->
     <script>
@@ -33,41 +33,38 @@
     <div class="reveal">
       <div class="slides">
         <section>
+          <h2>React Hooks in action</h2>
 
-						<h2>React Hooks in action</h2>
-				
-						<p>Martin Lechner</p>
-
-						<p>27.06.2019</p>
-					</textarea
-          >
+          <p>Martin Lechner</p>
+          <p>27.06.2019</p>
           <aside class="notes">
-            Hooks have taken the React community by storm.
-            Many open source contributors have started to tinker around and created a big buzz 
-            as soon as the alpha was released last year. 
-            Following the full release in March this year, there is now more 
-            and more adoption in the wild. react-redux is the latest big 
-            library to add a hook based api. In this talk I will guide you from the Why
-            up to building your own hooks.
+            Hooks have taken the React community by storm. Many open source
+            contributors have started to tinker around as soon as the alpha was
+            released last year and created a big hype. Following the full
+            release in March this year, there is now more and more adoption in
+            the wild. react-redux is the latest big library to add a hook based
+            api. In this talk I will guide you from the Why up to building your
+            own hooks.
           </aside>
         </section>
         <section>
-          <section data-markdown>
-            <textarea data-template>
-							## About me
-					
-							Martin Lechner
+          <h2>About me</h2>
 
-							Fullstack Engineer at Autoscout24
+          <p>Martin Lechner</p>
 
-							I ❤️ 👨‍👩‍👧‍👦, Functional Programming, Photography, Bouldering & Boardgames
+          <p>Fullstack Engineer at Autoscout24</p>
 
-							[www.lechner.work](www.lechner.work)
+          <p>
+            I ❤️ 👨‍👩‍👧‍👦, Functional Programming, Photography, Bouldering &
+            Boardgames
+          </p>
 
-							[@m4nl5r](https://twitter.com/m4nl5r)
-						</textarea
-            >
-          </section>
+          <a href="https://www.lechner.work">www.lechner.work</a>
+
+          <a href="https://twitter.com/m4nl5r">@m4nl5r</a>
+          <aside class="notes">
+            data driven products for commercial car sellers
+          </aside>
         </section>
         <section>
           <section>
@@ -81,7 +78,8 @@
               Classes are a complex thing in js: this, event handler binding,
               ... <br />
               FCs are easier to optimize <br />
-              Pre hooks fcs were missing some features, so they definately were needed.
+              Pre hooks fcs were missing some features, so they definately were
+              needed.
             </aside>
           </section>
           <section>
@@ -111,7 +109,8 @@
             <h2>Who likes complex component hierarchies?</h2>
             <aside class="notes">
               The following slides show how to do i18n. All those options are
-              available in react-i18next to demonstrate code reuse concepts in react <br />
+              available in react-i18next to demonstrate code reuse concepts in
+              react <br />
               Concrete example for theconcept of Reusing of stateful logic
               <br />
               As we will see: Everything, but hooks is adding weight to the ch
@@ -120,7 +119,9 @@
           </section>
           <section>
             <h2>Render Props</h2>
-            <pre class="language-jsx"><code class="language-jsx" data-trim>              
+            <pre
+              class="language-jsx"
+            ><code class="language-jsx" data-trim>              
                         function Example() {
                           return (
                             &lt;Translation&gt;
@@ -131,6 +132,10 @@
                           );
                         }
                       </code></pre>
+            <aside class="notes">
+              Code sharing through components who expect a function returning
+              children as props or child
+            </aside>
           </section>
           <section>
             <h2>Higher Order Components</h2>
@@ -140,6 +145,11 @@
                         }
                         export default withTranslation()(MyComponent);
                       </code></pre>
+            <aside class="notes">
+              HOC is a component taking a component as input and returning a new
+              one. One of the patterns here is prop injection as seen here. Adds
+              a layer to component hierarchy.
+            </aside>
           </section>
           <section>
             <h2>Hooks</h2>
@@ -185,30 +195,30 @@
       )
     }
     </code></pre>
-    <aside class="notes">
-      Convention useXX
-    </aside>
+            <aside class="notes">
+              Convention useXX
+            </aside>
           </section>
           <section>
-            <a href="https://codesandbox.io/s/hopeful-haze-m0e94" target="_blank">Demo</a>
+            <a
+              href="https://codesandbox.io/s/hopeful-haze-m0e94"
+              target="_blank"
+              >Demo</a
+            >
           </section>
           <section>
             <h2>callbacks in set</h2>
             <pre><code class="language-jsx" data-trim data-line-numbers="8">
-              import React, { useState } from 'react';
-          
-              function Counter() {
-                const [count, setCount] = useState(0);
-                return (
-                  &lt;div&gt;
-                    &lt;p&gt;You clicked {count} times.&lt;/p&gt;
-                    &lt;button onClick={() =&gt; setCount(c => c + 1)}&gt;
-                      Inc
-                    &lt;/button&gt;
-                  &lt;/div&gt;  
-                )
-              }
-                    </code></pre>
+              const [count, setCount] = useState(0);
+
+              &lt;button onClick={() =&gt; setCount(c => c + 1)}&gt;
+                Inc
+              &lt;/button&gt;
+              </code></pre>
+            <aside class="notes">
+              You can also pass a callback to the setter, taking the current
+              state and returning a new one.
+            </aside>
           </section>
         </section>
         <section>
@@ -276,7 +286,11 @@ function Counter() {
           <section>
             <h2>Class vs hook</h2>
             <ul>
-              <li><a href="https://codesandbox.io/s/kkymzwjqz3" target="_blank">Class</a></li>
+              <li>
+                <a href="https://codesandbox.io/s/kkymzwjqz3" target="_blank"
+                  >Class</a
+                >
+              </li>
               <li>
                 <a href="https://codesandbox.io/s/lyx20m1ol" target="_blank"
                   >Hook</a
@@ -284,9 +298,10 @@ function Counter() {
               </li>
             </ul>
             <aside class="notes">
-              this.state.count is always the latest value </br>
-               hooks variant binds the props/state to the effect <br/>
-               It's possible to get a matching behavior for the hook flavor by using useRef
+              this.state.count is always the latest value <br />
+              hooks variant binds the props/state to the effect <br />
+              It's possible to get a matching behavior for the hook flavor by
+              using useRef
             </aside>
           </section>
           <section>
@@ -297,9 +312,8 @@ function Counter() {
               });
             </code></pre>
             <aside class="notes">
-              What's the problem?
-              It's leaking connections, 
-              since on each render a new one is created.
+              What's the problem? It's leaking connections, since on each render
+              a new one is created.
             </aside>
           </section>
           <section>
@@ -315,7 +329,8 @@ function Counter() {
               Render<br />
               Clear old effect with customerId x<br />
               Run new effect with customerId y<br />
-              Now there is still a problem. What if the component has other Props/State? <br/>
+              Now there is still a problem. What if the component has other
+              Props/State? <br />
               Effect executed every render!
             </aside>
           </section>
@@ -327,7 +342,7 @@ function Counter() {
                                       return () => websocket.disconnect(props.customerId);
                                     }, [props.customerId]);
                                   </code></pre>
-                                  <aside class="notes">Hole is plugged, well done!</aside>
+            <aside class="notes">Hole is plugged, well done!</aside>
           </section>
           <section>
             <h2>Only execute once</h2>
@@ -336,27 +351,34 @@ function Counter() {
                                                  ...
                                                 }, []);
                                               </code></pre>
-                                              <aside class="notes">Be careful, source of bugs. 
-                                                the empty array are the dependencies. If there are actually some,
-                                                unexpected things might happen.
-                                              </aside>
+            <aside class="notes">
+              Be careful, source of bugs. the empty array are the dependencies.
+              If there are actually some, unexpected things might happen.
+            </aside>
           </section>
-          <section><h2>Who feels useEffect can be used to achieve the exact same behavior as componentDidX?</h2></section>
           <section>
-            <h2>useEffect vs componentDidX</h2>
+            <h2>
+              Is it the same as component lifecycle methods?
+            </h2>
+          </section>
+          <section>
+            <h2>useEffect vs component lifecycle methods</h2>
             <ul>
               <li>useEffect is non-blocking</li>
-              <li>componentDidX is blocking</li>
-              <li>Closest to componentDidMount, componentDidUpdate is useLayoutEffect</li>
+              <li>component lifecycle methods are blocking browser painting</li>
+              <li>
+                Closest to componentDidMount, componentDidUpdate is
+                <strong>useLayoutEffect</strong>
+              </li>
             </ul>
             <aside class="notes">
-              Unlike componentDidMount or componentDidUpdate, 
-              effects scheduled with useEffect don’t block the browser from updating
-              the screen.
-              useLayoutEffect synchronously fires after DOM mutations. 
-              Updates scheduled inside useLayoutEffect will be flushed synchronously, 
-              before the browser has a chance to paint.
-            Prefer the standard useEffect when possible to avoid blocking visual updates.
+              effects scheduled with useEffect don’t block the browser from
+              updating the screen <br />
+              componentDidMount and componentDidUpdate are blocking
+              useLayoutEffect synchronously fires after DOM mutations. Updates
+              scheduled inside useLayoutEffect will be flushed synchronously,
+              before the browser has a chance to paint. Prefer the standard
+              useEffect when possible to avoid blocking visual updates.
             </aside>
           </section>
         </section>
@@ -366,8 +388,8 @@ function Counter() {
             <aside class="notes">
               React allows you to define custom hooks, which are functions,
               which use other available hooks, but can only be used in react
-              fcs. This is the major composition mechanism built into the hooks
-              concept.
+              fcs. This allows you to factor out commonly used logic out of your
+              components and re-use it
             </aside>
           </section>
           <section>
@@ -401,12 +423,9 @@ function Counter() {
       const fetchData = async () => {
         setLoading(true);
         setError(null);
-        try {
-          const response = await axios.get(url);
-          setData(response.data);
-        } catch (e) {
-          setError(e);
-        }
+
+        ???
+        
         setLoading(false);
       };
       fetchData();
@@ -415,15 +434,42 @@ function Counter() {
   }</code></pre>
           </section>
           <section>
+            <pre><code class="language-jsx stretch" data-trim>
+                      function useApi(url) {
+                        const [error, setError] = useState(null);
+                        const [loading, setLoading] = useState(false);
+                        const [data, setData] = useState(null)
+                    
+                        useEffect(() => {
+                          const fetchData = async () => {
+                            setLoading(true);
+                            setError(null);
+                            try {
+                              const response = await axios.get(url);
+                              setData(response.data);
+                            } catch (e) {
+                              setError(e);
+                            }
+                            setLoading(false);
+                          };
+                          fetchData();
+                          }, [url]);
+                        return { error, loading, data };
+                      }</code></pre>
+          </section>
+          <section>
             <h2>Demo</h2>
-            <a href="https://codesandbox.io/s/intelligent-swartz-wz8tm?fontsize=20" target="_blank">Codesandbox</a>
+            <a
+              href="https://codesandbox.io/s/intelligent-swartz-wz8tm?fontsize=20"
+              target="_blank"
+              >Codesandbox</a
+            >
           </section>
           <section>
             <h2>Testing custom hooks</h2>
             <aside class="notes">
-              Problem: hooks cannot be executed standalone
-              solution: wrap into dummy component
-              react-testing-library-hooks
+              Problem: hooks cannot be executed standalone <br />
+              solution: wrap into dummy component react-testing-library-hooks
               act warning, fixed in next react version
             </aside>
           </section>
@@ -452,7 +498,11 @@ function Counter() {
           </section>
           <section>
             <h2>Tests Demo</h2>
-            <a href="https://codesandbox.io/s/intelligent-swartz-wz8tm?fontsize=20" target="_blank">Codesandbox</a>
+            <a
+              href="https://codesandbox.io/s/intelligent-swartz-wz8tm?fontsize=20"
+              target="_blank"
+              >Codesandbox</a
+            >
           </section>
         </section>
         <section>
@@ -461,11 +511,13 @@ function Counter() {
             <h2>Use Context</h2>
             <pre><code class="language-jsx" data-trim>const value = useContext(MyContext);</code></pre>
             <aside class="notes">
-              Takes context object and returns current value of it. <br/>
-              When provider of MyContext updates, rerender with latest value is triggered
+              Takes context object and returns current value of it. <br />
+              When provider of MyContext updates, rerender with latest value is
+              triggered
             </aside>
           </section>
-          <section><h2>Use Ref</h2>
+          <section>
+            <h2>Use Ref</h2>
             <pre><code data-trim class="language-jsx stretch">
               function TextInputWithFocusButton() {
                 const inputEl = useRef(null);
@@ -481,9 +533,12 @@ function Counter() {
               }
             </code></pre>
             <aside class="notes">
-              Use case: share values between renders <br/>
-              DOM access <br />
-              Use Ref guaranteed to be static</aside>
+              Use case: share mutable values between renders <br />
+              `.current` holds the value <br />
+              child access <br />
+              Use Ref guaranteed to be static <br />
+              Changes to value in ref does not trigger renders <br />
+            </aside>
           </section>
           <section>
             <h2>Use Callback</h2>
@@ -495,7 +550,11 @@ function Counter() {
                 [a, b],
               );
             </code></pre>
-            <aside class="notes">Returns memoized callback, only changes when dependencies change</aside>
+            <aside class="notes">
+              Returns memoized callback, only changes when dependencies change.
+              Useful for passing around callbacks, preventing unnecessary
+              renders
+            </aside>
           </section>
           <section>
             <h2>Callback ref</h2>
@@ -517,13 +576,22 @@ function Counter() {
                 );
               }
             </code></pre>
+            <aside class="notes">
+              Attach callback to ref. Will be executed after changes were
+              written to dom.
+            </aside>
           </section>
           <section>
             <h2>Use Reducer</h2>
             <pre><code class="language-jsx stretch" data-trim>
               const [state, dispatch] = 
                 useReducer(reducer, initialArg, init);</code></pre>
-            <aside class="notes">Dispatch: guaranteed to be static, not needed on dependency list of effect</aside>
+            <aside class="notes">
+              Preferable over state for complex business logic and deeply nested
+              components, since dispatch is static and can be passed down the
+              component hierarchy. Also means that it's not needed on dependency
+              list of effect
+            </aside>
           </section>
           <section>
             <pre><code class="language-jsx stretch" data-trim>
@@ -558,8 +626,9 @@ function Counter() {
                 useMemo(() => computeExpensiveValue(a, b), [a, b]);
             </code></pre>
             <aside class="notes">
-              The function runs on first render
-              value is only recomputed when deps change
+              The function runs on first render value is only recomputed when
+              deps change. Don't do side effects here, use non-blocking
+              useEffect
             </aside>
           </section>
         </section>
