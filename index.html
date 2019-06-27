@@ -11,7 +11,7 @@
 
     <link rel="stylesheet" href="css/reset.css" />
     <link rel="stylesheet" href="css/reveal.css" />
-    <link rel="stylesheet" href="css/theme/league.css" />
+    <link rel="stylesheet" href="css/theme/solarized.css" />
 
     <!-- Theme used for syntax highlighting of code -->
     <!-- <link rel="stylesheet" href="lib/css/monokai.css" /> -->
@@ -58,10 +58,12 @@
             I ❤️ 👨‍👩‍👧‍👦, Functional Programming, Photography, Bouldering &
             Boardgames
           </p>
-
-          <a href="https://www.lechner.work">www.lechner.work</a>
-
-          <a href="https://twitter.com/m4nl5r">@m4nl5r</a>
+          <p>
+            <a href="https://www.lechner.work">www.lechner.work</a>
+          </p>
+          <p>
+            <a href="https://twitter.com/m4nl5r">@m4nl5r</a>
+          </p>
           <aside class="notes">
             data driven products for commercial car sellers
           </aside>
@@ -96,7 +98,7 @@
             </aside>
           </section>
           <section>
-            <h2>State vs Function Components?</h2>
+            <h2>State in Function Components</h2>
             <p>Nope 😢</p>
             <aside class="notes">
               Two sided edge: <br />
@@ -107,6 +109,10 @@
           </section>
           <section>
             <h2>Who likes complex component hierarchies?</h2>
+          </section>
+          <section>
+            <h2>Reusing stateful logic: i18n</h2>
+            <p>Code re-use for handling translations</p>
             <aside class="notes">
               The following slides show how to do i18n. All those options are
               available in react-i18next to demonstrate code reuse concepts in
@@ -126,7 +132,7 @@
                           return (
                             &lt;Translation&gt;
                               {
-                                (t, { i18n }) => &lt;p&gt;{t('my-translation-key')}&lt;/p&gt;
+                                (translate) => &lt;p&gt;{translate('my-translation-key')}&lt;/p&gt;
                               }
                             &lt;/Translation&gt;
                           );
@@ -140,8 +146,8 @@
           <section>
             <h2>Higher Order Components</h2>
             <pre><code class="language-jsx" data-trim>
-                        function MyComponent({ t, i18n }) {
-                          return &lt;p&gt;{t('my-translation-key')}&lt;/p&gt;
+                        function MyComponent({ translate }) {
+                          return &lt;p&gt;{translate('my-translation-key')}&lt;/p&gt;
                         }
                         export default withTranslation()(MyComponent);
                       </code></pre>
@@ -155,8 +161,8 @@
             <h2>Hooks</h2>
             <pre><code class="language-jsx" data-trim>
                         function MyComponent() {
-                          const { t, i18n } = useTranslation();
-                          return &lt;p&gt;{t('my-translation-key')}&lt;/p&gt;
+                          const { translate } = useTranslation();
+                          return &lt;p&gt;{translate('my-translation-key')}&lt;/p&gt;
                         }
                       </code></pre>
             <aside class="notes">
@@ -175,7 +181,35 @@
                 </li>
                 <li>v16.8.0 + opt-in</li>
                 <li>classes stay</li>
+                <li>Full typescript support</li>
               </ul>
+            </aside>
+          </section>
+          <section>
+            <pre><code class="language-jsx stretch">
+              class Example extends React.Component {
+                constructor(props) {
+                  super(props);
+                  this.state = {
+                    count: 0
+                  };
+                }
+                
+                render() {
+                  return (
+                  &lt;div&gt;
+                    &lt;p&gt;You clicked {this.state.count} times&lt;/p&gt;
+                    &lt;button onClick={() =&gt; this.setState({ count: this.state.count + 1 })}&gt;
+                      Click me
+                    &lt;/button&gt;
+                  &lt;/div&gt;
+                  );
+                }
+              }
+            </code></pre>
+            <aside class="notes">
+              Dive into class component first <br />
+              Convert to hook
             </aside>
           </section>
           <section>
@@ -233,8 +267,9 @@
             </aside>
           </section>
           <section>
-            <p>React relies on ordering of useX hook calls!</p>
-            <code>eslint-plugin-react-hooks</code>
+            <h2>Linting</h2>
+            <p>eslint-plugin-react-hooks</p>
+            <p>ts-lint-react-hooks</p>
           </section>
         </section>
         <section>
@@ -246,6 +281,12 @@
               <li>Non-blocking</li>
               <li>Props, State bound to the wrapped function</li>
             </ul>
+            <aside class="notes">
+              Note that this is a major difference to class components! <br />
+              this.state always points to the most recent value even in async
+              <br />
+              code!!!
+            </aside>
           </section>
           <section>
             <pre><code class="language-jsx stretch" data-trim>
@@ -266,6 +307,9 @@ function Counter() {
   );
 }
             </code></pre>
+            <aside class="notes">
+              You can also have multiple independent effects!
+            </aside>
           </section>
           <section>
             <h2>Mental model for rendering</h2>
@@ -273,36 +317,15 @@ function Counter() {
               <li>Counter is bound to 0</li>
               <li>Component: Creates render result & dispatch effect</li>
               <li>React renders to DOM, Browser paints</li>
-              <li>React running the effect</li>
+              <li>React running effects</li>
             </ul>
             <p><i>Click button</i></p>
             <ul>
               <li>Counter is bound to 1</li>
               <li>Component: Creates render result & dispatch effect</li>
               <li>React renders to DOM, Browser paints</li>
-              <li>React cleaning up old effects, running the new effect</li>
+              <li>React cleaning up old & running the new effects</li>
             </ul>
-          </section>
-          <section>
-            <h2>Class vs hook</h2>
-            <ul>
-              <li>
-                <a href="https://codesandbox.io/s/kkymzwjqz3" target="_blank"
-                  >Class</a
-                >
-              </li>
-              <li>
-                <a href="https://codesandbox.io/s/lyx20m1ol" target="_blank"
-                  >Hook</a
-                >
-              </li>
-            </ul>
-            <aside class="notes">
-              this.state.count is always the latest value <br />
-              hooks variant binds the props/state to the effect <br />
-              It's possible to get a matching behavior for the hook flavor by
-              using useRef
-            </aside>
           </section>
           <section>
             <h2>Cleanup</h2>
@@ -342,7 +365,10 @@ function Counter() {
                                       return () => websocket.disconnect(props.customerId);
                                     }, [props.customerId]);
                                   </code></pre>
-            <aside class="notes">Hole is plugged, well done!</aside>
+            <aside class="notes">
+              Diffing mechanism. When values in array change effect is scheduled
+              after render Hole is plugged, well done!
+            </aside>
           </section>
           <section>
             <h2>Only execute once</h2>
@@ -357,8 +383,33 @@ function Counter() {
             </aside>
           </section>
           <section>
+            <h2>Minimizing dependencies</h2>
+            <pre><code class="language-jsx stretch">
+                  const [count, setCount] = useState(0);
+                  useEffect(() => {
+                    const id = setInterval(() => {
+                      setCount(count + 1);
+                    }, 1000);
+                    return () => clearInterval(id);
+                  }, [count]);
+            </code></pre>
+          </section>
+          <section>
+            <h2>Minimizing dependencies</h2>
+            <pre><code class="language-jsx stretch">
+                  const [count, setCount] = useState(0);
+                  useEffect(() => {
+                    const id = setInterval(() => {
+                      setCount(c => c + 1);
+                    }, 1000);
+                    return () => clearInterval(id);
+                  }, []);
+            </code></pre>
+          </section>
+          <section>
             <h2>
-              Is it the same as component lifecycle methods?
+              Can the component lifecycle methods be modeled in a similar way to
+              class components with useEffect?
             </h2>
           </section>
           <section>
@@ -456,6 +507,9 @@ function Counter() {
                           }, [url]);
                         return { error, loading, data };
                       }</code></pre>
+            <aside class="notes">
+              Note: React relies on ordering of useX hook calls!
+            </aside>
           </section>
           <section>
             <h2>Demo</h2>
@@ -485,8 +539,7 @@ function Counter() {
   it('should fetch data', async () => {
     axios.get.mockResolvedValue({ data: '1' });
 
-    const { result, waitForNextUpdate } = 
-      renderHook(() => useApi('test'));
+    const { result, waitForNextUpdate } = renderHook(() => useApi('test'));
 
     expect(result.current.loading).toEqual(true);
 
@@ -510,6 +563,23 @@ function Counter() {
           </section>
           <section>
             <h2>Use Ref</h2>
+            <pre><code class="language-jsx">
+                const refContainer = useRef(initialValue);
+
+                refContainer.current = 123;
+                refContainer.current
+                // 123
+            </code></pre>
+            <aside class="notes">
+              Use case: share mutable values between renders in a container
+              <br />
+              `.current` always holds the latest value <br />
+              Use Ref guaranteed to be static <br />
+              Changes to value in ref does not trigger renders <br />
+            </aside>
+          </section>
+          <section>
+            <h2>Use Ref with DOM elements</h2>
             <pre><code data-trim class="language-jsx stretch">
               function TextInputWithFocusButton() {
                 const inputEl = useRef(null);
@@ -524,13 +594,7 @@ function Counter() {
                 );
               }
             </code></pre>
-            <aside class="notes">
-              Use case: share mutable values between renders <br />
-              `.current` holds the value <br />
-              child access <br />
-              Use Ref guaranteed to be static <br />
-              Changes to value in ref does not trigger renders <br />
-            </aside>
+            <aside class="notes">child access <br /></aside>
           </section>
           <section>
             <h2>Use Callback</h2>
@@ -576,8 +640,7 @@ function Counter() {
           <section>
             <h2>Use Reducer</h2>
             <pre><code class="language-jsx stretch" data-trim>
-              const [state, dispatch] = 
-                useReducer(reducer, initialArg, init);</code></pre>
+              const [state, dispatch] = useReducer(reducer, initialArg, init);</code></pre>
             <aside class="notes">
               Preferable over state for complex business logic and deeply nested
               components, since dispatch is static and can be passed down the
@@ -614,8 +677,7 @@ function Counter() {
           </section>
           <section>
             <pre><code data-trim class="stretch language-jsx">
-              const memoizedValue = 
-                useMemo(() => computeExpensiveValue(a, b), [a, b]);
+              const memoizedValue = useMemo(() => computeExpensiveValue(a, b), [a, b]);
             </code></pre>
             <aside class="notes">
               The function runs on first render value is only recomputed when
@@ -627,9 +689,9 @@ function Counter() {
         <section>
           <h2>Hooks in the wild (libraries)</h2>
           <ul>
-            <li>react-i18next</li>
             <li>react-redux</li>
             <li>react-apollo-hooks</li>
+            <li>react-i18next</li>
             <li>
               <a href="https://nikgraf.github.io/react-hooks/" target="_blank"
                 >Hook Search</a
